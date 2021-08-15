@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,28 +26,60 @@ namespace ProjectWindowsForm
             InitializeComponent();
         }
 
-        private void SubmitionIcon_Click(object sender, EventArgs e)
+        public void SubmitionIcon_Click(object sender, EventArgs e)
         {
 
-            
-            
-            string inputPeso = InputWeight.Text;
-            double Pesaje = double.Parse(inputPeso);   
-            
-            double TotalProteina = Pesaje + 25;
+
+            int inputPeso;
+            if (isWeightValid(InputWeight.Text))
+            {
+                inputPeso = Int32.Parse(InputWeight.Text);
+            }
+            else
+            {
+                MessageBox.Show("That is not a valid weight");
+                return;
+            }
+            // string inputPeso = InputWeight.Text;
+            // double Pesaje = double.Parse(inputPeso);          
+            double TotalProteina = inputPeso + 25;
             double TotalCarbs = TotalProteina + 92;
+            double Magiccalories = 2700; // Change(lower) If Needed  Max is 2000Cal over this 2800 is for bulking up for males,Woman are around 1500 to 2300 cal per meal.
+            double TotalFats = Magiccalories * .25 / 7; // Max fat to consume is 60 to 115 fats range. 
+            double RoundedFats = Math.Ceiling(TotalFats);
+            double waterNeeded = 1;
             Proteinoutput.Text = Convert.ToString(TotalProteina);
             Carbsoutput.Text = Convert.ToString(TotalCarbs);
-            Wateroutput.Text = "1 Gallon"; // notes paso mas importante more water to lose weight and detox,  Science is weird //
-            Fatsoutput.Text = ""; //
-           
+            CaloriesOutput.Text = Convert.ToString(Magiccalories);
+            Wateroutput.Text = "1 Gallon"; // notes paso mas importante MORE water(1 gallon to 1.5 gallons) to lose unnecessary weight and detox and you will see result in about a week,  Science is weird. 
+            Fatsoutput.Text = Convert.ToString(RoundedFats);
+            double Pesaje = (double)inputPeso;
             MessageBox.Show("This Are Your Macros For A Day .....");
             MessageBox.Show("Protein: " + TotalProteina);
             MessageBox.Show("Carbs: " + TotalCarbs);
-            return;
+            MessageBox.Show("Fats:  " + RoundedFats);
+            MessageBox.Show("Calories: " + Magiccalories);
+            MessageBox.Show("Water: " + waterNeeded + " Gallon ");
         }
+        public bool isWeightValid(string inputPeso)
+        {
+            int weight;
+            try
+            {
+                weight = int.Parse(inputPeso);
 
-       
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            if (weight > 200)
+            {
+                MessageBox.Show("Sorry Bro Your Weight is not Human");
+                return false;
+            }
+            return true;
+        }
 
         private void TotalProtein_Click(object sender, EventArgs e)
         {
@@ -58,25 +91,18 @@ namespace ProjectWindowsForm
             double TotalCarbs = TotalProteina + 92;
         }
 
-      
-     
-
         private void SaveIcon_Click(object sender, EventArgs e)
         {
             Workouts workout = new Workouts();
             workout.WorkoutName = inputWorkout.Text;
             workout.WorkoutSet = inputSet.Text;
-
             Split_List.Items.Add(workout);
-
-
         }
 
         private void DeleteICon_Click(object sender, EventArgs e)
         {
             int IndexSelected = Split_List.SelectedIndex;
             Split_List.Items.RemoveAt(IndexSelected);
-
         }
 
 
@@ -91,46 +117,96 @@ namespace ProjectWindowsForm
             tiempoRGB.Start();
         }
 
-        private void inputWorkout_TextChanged(object sender, EventArgs e)
+        private void inputWorkout_TextChanged_1(object sender, EventArgs e)
         {
             inputWorkout.MaxLength = 20;
 
         }
 
-        private void inputSet_TextChanged(object sender, EventArgs e)
+        private void inputSet_TextChanged_1(object sender, EventArgs e)
         {
             inputSet.MaxLength = 10;
 
         }
 
-        private void GainWeightInput_TextChanged(object sender, EventArgs e)
+        private void GainWeightInput_TextChanged_1(object sender, EventArgs e)
         {
             GainWeightInput.MaxLength = 3;
         }
 
-
-        private void InputWeight_Validated(object sender, EventArgs e)
+        private void InputWeight_TextChanged_1(object sender, EventArgs e)
         {
-           /*
-             if(InputWeight.Text == "")
+            InputWeight.MaxLength = 3;
+        }
+        private void LinkToFinessAppIcon_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://apps.apple.com/us/app/myfitnesspal/id341232718");
+        }
+
+        private void LinkToFinessAppIcon2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://apps.apple.com/us/app/myfitnesspal/id341232718");
+        }
+
+
+        private void CaloriesCalculate_Click(object sender, EventArgs e)
+        {
+            string bodyActivity = "";
+            int gainWeight;
+            gainWeight = Int32.Parse(GainWeightInput.Text);
+            double bmr = gainWeight / 2.2046; // lbs to kg for bmr
+            double lbsBMR = gainWeight * 15;
+            double sedentary = bmr * 1.2;
+            double moderate = bmr * 1.55;
+            double active = bmr * 1.725;
+            double SurplusCalories = lbsBMR + 1000;
+            MaintainweightCaloriesOutput.Text = Convert.ToString(lbsBMR + " Calories");
+
+            if (SendetaryIcon.Checked)
             {
-                errorProvider1.SetError(InputWeight, " Weight Not inputed ");
                 
-
-
+               // double 1bmr = gainWeight / 2.2046 ; // lbs to kg for bmr
+                
+                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
             }
-            else 
+
+            if (LightlyactiveIcon.Checked)
             {
-                errorProvider1.Clear();
+                bodyActivity = LightlyactiveIcon.Text;
+                double output = bmr;
+                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
             }
-            MessageBox.Show("Enter Correct Format ", "mistake", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            return;
-           */
-        }
+            if (ModerateIcon.Checked)
+            {
+                bodyActivity = ModerateIcon.Text;
+                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
+            }
+            if (ActiveIcon.Checked)
+            {
+                bodyActivity = ActiveIcon.Text;
+                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
+            }
 
-        private void InputWeight_TextChanged(object sender, EventArgs e)
+        }
+        public bool isGainWeightValid(string GainWeightInput)
         {
-
+            int gainWeight;
+            try
+            {
+                gainWeight = int.Parse(GainWeightInput);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            if (gainWeight > 200)
+            {
+                MessageBox.Show("Sorry Bro Your Weight is not Human");
+                return false;
+            }
+            return true;
         }
+
     }
 }
+

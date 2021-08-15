@@ -14,7 +14,7 @@ namespace Get_Leaner_Demo_Project
 
 
         GetLeanerWin myTool = new GetLeanerWin();
-        
+
 
         public MainWindowsCredential()
         {
@@ -29,37 +29,38 @@ namespace Get_Leaner_Demo_Project
 
         private void PasswordLogininput_TextChanged(object sender, EventArgs e)
         {
-           Passwordinput.MaxLength = 5;
+            Passwordinput.MaxLength = 5;
         }
 
-           
-       private void LoginSubmitIcon_Click(object sender, EventArgs e)
+
+        private void LoginSubmitIcon_Click(object sender, EventArgs e)
         {
 
             string user;
             string pass;
             user = UsernameInput.Text;
             pass = Passwordinput.Text;
-            
-            if (user == "su" && pass == "337")
-                {
+
+            if (user == "su" && pass == "337" )
+            {
                 LoginWelcomeIcon.Visible = true;
                 myTool.Show();
+                
                 this.Hide();
 
-                
+            }
+            else
+            {
 
-                }
-           else
-               {
                 IncorrectCrendIcon.Visible = true;
-               }
-            
+            }
         }
 
         private void ExitLoginButton_Click(object sender, EventArgs e)
         {
+            
             this.Close();
         }
+       
     }
 }
