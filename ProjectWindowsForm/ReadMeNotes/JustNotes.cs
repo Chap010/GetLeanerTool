@@ -65,7 +65,7 @@ namespace Get_Leaner_Demo_Project.Notas_Importantes
         15. meats / pastas / sopa
 
 
-                                Taining
+                                        Training
 
         1. chest -Incline press different levels   low , medium , high 
         2. chest fly, chest press with dumbells   

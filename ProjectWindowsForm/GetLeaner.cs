@@ -159,7 +159,17 @@ namespace ProjectWindowsForm
             double sedentary = bmr * 1.2;
             double moderate = bmr * 1.55;
             double active = bmr * 1.725;
-            double SurplusCalories = lbsBMR + 1000;
+            /*<-- everyweek you should try adding 100 to 200 more calories to be on a surplus 
+                  The body is beutiful that it takes 1 week to adjust to change, 
+                  those few weeks goin to be the hardest because you
+                  forcing your stomach to spand STAY Hard Dont GIVE UP.      
+                  This is only to gain weight not to build muscle! 
+                  To build muscle you need to workout and make the muscle do so kind of resistance.
+            -->*/
+            double SurplusCaloriesSeden = lbsBMR + 300; 
+            double surplusCaloriesLigh = lbsBMR + 500;
+            double surplusCaloriesMode = lbsBMR + 700;
+            double surplusCaloriesActi = lbsBMR + 1000;
             MaintainweightCaloriesOutput.Text = Convert.ToString(lbsBMR + " Calories");
 
             if (SendetaryIcon.Checked)
@@ -167,24 +177,24 @@ namespace ProjectWindowsForm
                 
                // double 1bmr = gainWeight / 2.2046 ; // lbs to kg for bmr
                 
-                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
+                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCaloriesSeden + " Calories");
             }
 
             if (LightlyactiveIcon.Checked)
             {
                 bodyActivity = LightlyactiveIcon.Text;
                 double output = bmr;
-                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
+                GainweightCaloriesOutput.Text = Convert.ToString(surplusCaloriesLigh + " Calories");
             }
             if (ModerateIcon.Checked)
             {
                 bodyActivity = ModerateIcon.Text;
-                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
+                GainweightCaloriesOutput.Text = Convert.ToString(surplusCaloriesMode + " Calories");
             }
             if (ActiveIcon.Checked)
             {
                 bodyActivity = ActiveIcon.Text;
-                GainweightCaloriesOutput.Text = Convert.ToString(SurplusCalories + " Calories");
+                GainweightCaloriesOutput.Text = Convert.ToString(surplusCaloriesActi + " Calories");
             }
 
         }
@@ -207,6 +217,7 @@ namespace ProjectWindowsForm
             return true;
         }
 
+      
     }
 }
 
